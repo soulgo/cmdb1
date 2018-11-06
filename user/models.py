@@ -1,8 +1,7 @@
 #encoding: utf-8
 
-from user.dbutils import gconf,MySqlConnection
-from user import utils
-from user import ssh
+from utils.dbutils import MySqlConnection
+from utils import ssh, utils
 import time
 
 class DbBase(object):

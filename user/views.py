@@ -1,7 +1,6 @@
 # encoding: utf-8
 
-from flask import Flask,render_template,request,redirect,url_for,flash,session
-import os
+from flask import render_template,request,redirect, session
 from functools import wraps
 # from Practise.cmdb.user import log2db,loganalysisdb,asset
 # from Practise.cmdb.user import userdb as user
@@ -9,7 +8,8 @@ import time
 import json
 
 
-from user import app,gconf
+from user import app
+from configs import gconf
 from user import models
 '''session装饰器'''
 def login_required(func):
