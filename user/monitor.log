@@ -1,0 +1,14 @@
+2018-11-05 18:23:28,860 __main__ [43] INFO:send main to:luojunquan_gz@139.com,1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警
+2018-11-05 18:26:33,004 __main__ [43] INFO:send main to:luojunquan_gz@139.com,1406221797@qq.com,title:CPU内存告警,msg:['主机140.143.206.70告警']
+2018-11-05 18:29:51,794 __main__ [44] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警
+2018-11-05 18:32:14,304 __main__ [44] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:33:14,184 __main__ [44] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:33:23,171 __main__ [44] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:34:46,262 __main__ [44] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:35:16,778 __main__ [45] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:39:39,193 __main__ [45] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:41:32,682 __main__ [46] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:42:03,408 __main__ [46] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:42:12,367 __main__ [46] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:42:17,538 __main__ [46] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%
+2018-11-05 18:42:21,576 __main__ [46] INFO:send main to:1406221797@qq.com,title:CPU内存告警,msg:主机140.143.206.70告警,内存连续3次超过28%

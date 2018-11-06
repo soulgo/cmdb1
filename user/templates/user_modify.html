@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>修改用户</title>
+      <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+      <link href="{{url_for('static',filename='users.css')}}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">CMDB</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a>欢迎{{session.get('user', {}).get('username', '')}}</a></li>
+            <li><a href="/logout/">退出登录</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/users/">用户管理</a></li>
+            <li><a href="/logs/">访问日志分析</span></a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <form class="form-horizontal" action="/user/update/" method="post">
+                <input type="hidden" name="id" value="{{uid}}" />
+                {% if error %}
+                <div class="form-group">
+                    <label class="col-md-1 sr-only">错误说明:</label>
+                    <div class="col-md-5">
+                        <p class="form-control-static bg-danger">{{error}}</p>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label class="col-md-1 control-label">用户名:</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="username" value="{{username}}" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-1 control-label">年龄:</label>
+                    <div class="col-md-4">
+                        <input class="form-control" type="text" name="age" value="{{age}}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-4">
+                    <button type="submit" class="btn btn-default">修改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

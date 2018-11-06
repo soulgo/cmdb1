@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../../Practise_Test/jquery-2.2.4.js"></script>
+
+</head>
+<body>
+    <input type="input" id="num1">
+    <button > + </button>
+    <input type="input" id="num2">
+    <button type="button" id="btn1" onclick="add_click()"> = </button>
+    <input type="button" id="btn2" value="相加">
+    <input type="button" class="hidden-btn" value="隐藏">
+    <input type="button" class="show-btn" value="显示">
+    <input type="input" id="result">
+    <div id="content">内容</div>
+    <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0"
+           data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            /*
+            * tag=>jQuery('tag');
+            * id=>jQuery('#id');
+            * class=>jQuery('.class');
+            * */
+            console.log(jQuery('input'));
+            console.log(jQuery('#num1').val());
+            jQuery('#btn2').bind('click',function () {
+                var num1 = jQuery('#num1').val();
+                var num2 = jQuery('#num2').val();
+                var sum = add(num1,num2);
+                console.log(sum);
+                jQuery('#result').val(sum);//input设置值的时候
+                jQuery('#content').html(sum);//设置html值的时候
+            })
+        });
+        jQuery('.hidden-btn').bind('click',function () {
+            jQuery('#content').hide();
+        });
+        jQuery('.show-btn').bind('click',function () {
+           jQuery('#content').show();
+        });
+        function add(num1,num2) {
+            return parseInt(num1) + parseInt(num2);
+        };
+        function add_click() {
+            var input1 = document.getElementById('num1').value,
+                input2 = document.getElementById('num2').value;
+            var rt = add(input1,input2);
+            document.getElementById('result').value = rt;
+            document.getElementById('content').innerHTML = rt;
+        };
+        jQuery(document).ready(function () {
+          //$就是jQuery
+          //更改密码按钮
+          $('#dialog').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+          var title = button.data('title');
+          var btn_txt = button.data('btn-txt');
+          var url = button.data('url');
+          var modal = $(this);
+          $(this).find('.modal-title').text(title);
+          $(this).find('.btn-form-submit').text(title);
+          $.post(url,parms,function (result) {
+
+          });
+    });
+});
+        $('#ex1').slider({
+	formatter: function(value) {
+		return 'Current value: ' + value;
+	}
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<form class="form-horizontal" id="create-asset" action="/asset/update/" method="post">
+    <input type="hidden" name="id" value="{{asset['id']}}"/>
+    <div class="form-group">
+        <label class="col-md-3 control-label">SN编号:</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" name="sn" value="{{asset['sn']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">IP:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="ip" value="{{asset['ip']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">主机名:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="hostname" value="{{asset['hostname']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">操作系统:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="os"  value="{{asset['os']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">CPU(核数):</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" id="cpu" name="cpu" data-slider-id='ex1Slider' type="text" data-slider-min="2" data-slider-max="64" data-slider-step="2" data-slider-value="{{asset['cpu']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">内存(G):</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" id="ram" name="ram" data-slider-id='ex2Slider' type="text" data-slider-min="2" data-slider-max="512" data-slider-step="1" data-slider-value="{{asset['ram']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">硬盘(G):</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" id="disk" name="disk" data-slider-id='ex3Slider' type="text" data-slider-min="20" data-slider-max="2048" data-slider-step="10" data-slider-value="{{asset['disk']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">机房:</label>
+        <div class="col-md-5">
+            <select class="form-control" name="idc_id">
+                {% for _id, _value in idcs %}
+                    <option value="{{_id}}"
+                    {% if _id == asset['idc_id']|string %}
+                    selected="selected"
+                    {% endif %}
+                    >{{_value}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">使用人:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="admin" value="{{asset['admin']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">业务:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="business" value="{{asset['business']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">采购日期:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" id="purchase_date" name="purchase_date" value="{{asset['purchase_date']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">保修时间:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="warranty" value="{{asset['warranty']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">供应商:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="vendor" value="{{asset['vendor']}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">型号:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="model" value="{{asset['model']}}"/>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#cpu').slider({
+            formatter: function(value) {
+                return 'CPU核数: ' + value;
+            }
+        });
+        jQuery('#ram').slider({
+            formatter: function(value) {
+                return '内存: ' + value + 'G';
+            }
+        });
+        jQuery('#disk').slider({
+            formatter: function(value) {
+                return '硬盘: ' + value + 'G';
+            }
+        });
+        $('#purchase_date').datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            minView:2
+        });
+        $('#create-asset').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                sn: {
+                    message: 'The username is not valid',
+                    validators: {
+                        notEmpty: {
+                            message: 'sn编号不能为空'
+                        },
+                        stringLength: {
+                            min: 10,
+                            max: 64,
+                            message: 'sn编号必须大于10个字符, 并且小于64个字符'
+                        }
+                    }
+                },
+                warranty: {
+                    validators: {
+                        notEmpty: {
+                            message: '保修时间不能为空'
+                        },
+                         between: {
+                            min: 1,
+                            max: 5,
+                            message: '保修必须为1年到5年'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

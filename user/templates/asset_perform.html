@@ -1,0 +1,44 @@
+<div id="container" style="width:550px;height:200px"></div>
+<script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        title: {
+            text: '',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'CPU&内存监控',
+            x: -20
+        },
+        xAxis: {
+            categories: {{datetime_list|safe}}
+        },
+        yAxis: {
+            title: {
+                text: 'CPU&内存使用率'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'CPU使用率',
+            data: {{cpu_list|safe}}
+        }, {
+            name: '内存使用率',
+            data: {{ram_list|safe}}
+        }]
+    });
+});
+</script>

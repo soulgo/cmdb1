@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{{ url_for('static',filename='bootstrap-3.3.7-dist/css/bootstrap.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='users.css')}}" rel="stylesheet" >
+    <link href="{{ url_for('static', filename='sweetalert-1.1.1/dist/sweetalert.css') }}" rel="stylesheet"/>
+     <link href="{{ url_for('static', filename='sweetalert-1.1.1/dist/sweetalert.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='dataTables.bootstrap4.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css') }}" rel="stylesheet"/>
+    {% block link %}{% endblock %}
+    <style>
+        {% block style %}{% endblock %}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">CMDB</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a>欢迎{{session.get('user', {}).get('username', '')}}</a></li>
+            <li><a href="/logout/">退出登录</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="{% block nav_user %}{% endblock %}"><a href="/users/">用户管理<span class="sr-only">(current)</span></a></li>
+              <li class="{% block nav_log %}{% endblock %}"><a href="/logs/">访问日志分析<span class="sr-only"></span></a></li>
+              <li class="{% block nav_asset %}{% endblock %}"><a href="/assets/">资产管理<span class="sr-only"></span></a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% block main %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <!--增加dialog-->
+    {% block dialog %}{% endblock %}
+  <script type="text/javascript" src="{{url_for('static',filename='jquery-2.2.4.js')}}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='sweetalert-1.1.1/dist/sweetalert.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='dataTables.bootstrap4.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js') }}"></script>
+  {% block script %}{% endblock %}
+  <script type="text/javascript">
+    $('table').DataTable({
+           language: {
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
+                    }
+                }
+});
+  {% block js %}{% endblock %}
+  </script>
+  </body>
+</html>

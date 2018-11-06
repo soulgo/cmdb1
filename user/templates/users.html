@@ -1,0 +1,438 @@
+{% extends "layout.html" %}
+{% block title %}用户列表{% endblock %}
+{% block nav_user %}active{% endblock %}
+{% block main %}
+            {% for msg in get_flashed_messages() %}
+                    <p class="bg-success">{{msg}}</p>
+            {% endfor %}
+            <a class="btn btn-default" href="/user/create/">添加用户</a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-user">添加用户</button>
+            <br/><br/>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>用户名</th>
+                        <th>密码</th>
+                        <th>年龄</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{user['username']}}</td>
+                        <td>******</td>
+                        <td>{{user['age']}}</td>
+                        <td>
+                            <!--<a href="/user/modify/?id={{user['id']}}">修改</a>-->
+                            <!--这种事get方式-->
+                            <!--<a href="/user/delete/?id={{user['id']}}" onclick="return confirm('确定删除吗？');">删除</a>-->
+                            <!--表格里面的按钮-->
+                            <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-user">添加用户</button>-->
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delete-user"
+                                    data-deleteuserid="{{user['id']}}", data-deleteusername="{{user['username']}}">删除用户</button>
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#update-age"
+                            data-ageuserid="{{user['id']}}", data-ageusername="{{user['username']}}">更改年龄</button>
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#update-password"
+                            data-userid="{{user['id']}}", data-username="{{user['username']}}">修改密码</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+{% endblock %}
+{% block dialog %}
+//修改密码
+    <div class="modal fade" id="update-password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">修改密码</h4>
+          </div>
+          <div class="modal-body">
+            <form id="modifypasswd">
+                <input type="hidden" id="password-userid" />
+                <div class="form-group">
+                <label for="password-username" class="control-label">用户名</label>
+                <input type="text" class="form-control" id="password-username" readonly="readonly">
+              </div>
+              <div class="form-group">
+                <label for="password-manager-password" class="control-label">管理员密码</label>
+                <input type="password" class="form-control" id="password-manager-password" name="mpasswd">
+              </div>
+              <div class="form-group">
+                <label for="password-user-password" class="control-label">用户密码</label>
+                <input type="password" class="form-control" id="password-user-password" name="upasswd">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="password-commit">更新</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    //修改年龄
+    <div class="modal fade" id="update-age" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel1">更新用户年龄</h4>
+          </div>
+          <div class="modal-body">
+            <form id="modifyage">
+                <input type="hidden" id="age-userid" />
+                <div class="form-group">
+                <label for="age-username" class="control-label">用户名</label>
+                <input type="text" class="form-control" id="age-username" readonly="readonly">
+              </div>
+              <div class="form-group">
+                <label for="age-manager-password" class="control-label">管理员密码</label>
+                <input type="password" class="form-control" id="age-manager-password" name="mpasswd">
+              </div>
+              <div class="form-group">
+                <label for="age-user" class="control-label">用户年龄</label>
+                <input type="text" class="form-control" id="age-user" name="age">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="age-commit">更新</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--添加用户-->
+    <div class="modal fade" id="create-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel2">添加用户</h4>
+          </div>
+          <div class="modal-body">
+              <!--<div class="form-group">-->
+            <form id="createuser">
+                <div class="form-group">
+                <label for="create-user-username" class="control-label">用户名</label>
+                <input type="text" class="form-control" id="create-user-username" name="username">
+              </div>
+              <div class="form-group">
+                <label for="create-user-password" class="control-label">管理员密码</label>
+                <input type="password" class="form-control" id="create-user-password" name="password">
+              </div>
+              <div class="form-group">
+                <label for="create-user-age" class="control-label">年龄</label>
+                <input type="text" class="form-control" id="create-user-age" name="age">
+              </div>
+            </form>
+                  <!--</div>-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="create-user-commit">添加</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    //删除用户
+    <div class="modal fade" id="delete-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel3">添加用户</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+                <input type="hidden" id="delete-userid" />
+                <div class="form-group">
+                <label for="delete-username" class="control-label">用户名</label>
+                <input type="text" class="form-control" id="delete-username" readonly="readonly">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="delete-user-commit">确认删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+     $(document).ready(function () {
+       $('#createuser').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                username: {
+                    message: 'The username is not valid',
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        },
+                        stringLength: {
+                            min: 3,
+                            max: 12,
+                            message: '用户名必须大于3个字符, 并且小于12个字符'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                         stringLength: {
+                            min: 6,
+                            max: 12,
+                            message: '密码必须大于6个字符, 并且小于12个字符'
+                        }
+                    }
+                },
+                age: {
+                    validators: {
+                        notEmpty: {
+                            message: '年龄不能为空'
+                        },
+                         between: {
+                            min: 19,
+                            max: 65,
+                            message: '年龄必须大于19个岁, 并且小于65个岁'
+                        }
+                    }
+                }
+            }
+        });
+       $('#modifypasswd').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                mpasswd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                         stringLength: {
+                            min: 6,
+                            max: 12,
+                            message: '密码必须大于6个字符, 并且小于12个字符'
+                        }
+                    }
+                },
+                upasswd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                         stringLength: {
+                            min: 6,
+                            max: 12,
+                            message: '密码必须大于6个字符, 并且小于12个字符'
+                        }
+                    }
+                },
+            }
+        });
+       $('#modifyage').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                mpasswd: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                         stringLength: {
+                            min: 6,
+                            max: 12,
+                            message: '密码必须大于6个字符, 并且小于12个字符'
+                        }
+                    }
+                },
+                age: {
+                    validators: {
+                        notEmpty: {
+                            message: '年龄不能为空'
+                        },
+                         between: {
+                            min: 19,
+                            max: 65,
+                            message: '年龄必须大于19个岁, 并且小于65个岁'
+                        }
+                    }
+                }
+            }
+        });
+     });
+     </script>
+{% endblock %}
+{% block js %}
+jQuery(document).ready(function () {
+          //$就是jQuery
+          //更改密码按钮
+          $('#update-password').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+          var userid = button.data('userid');
+          var username = button.data('username');
+          var modal = $(this);
+          $('#password-userid').val(userid);
+          $('#password-username').val(username);
+          $('#password-commit').bind('click',function () {
+                var parms = {};
+                parms['userid'] = $('#password-userid').val();
+                parms['manager-password'] = $('#password-manager-password').val();
+                parms['user-password'] = $('#password-user-password').val();
+                $.post('/user/charge-password/',parms,function (data) {
+                    if (data['is_ok']){
+                        <!--alert('更新成功');-->
+                swal({
+                        title: '更新成功',
+                        text: '',
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定",
+                        cancelButtonText: "关闭",
+                        closeOnConfirm: true,
+                        closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            jQuery('#dialog').modal('hide');
+                            window.location.reload();
+                    });
+                    }else {
+                        alert('更新失败');
+                    }
+                },'json');
+            });
+          });
+          //更改年龄按钮
+          $('#update-age').on('show.bs.modal', function (event){
+              var button = $(event.relatedTarget);
+              var userid = button.data('ageuserid');
+              var username = button.data('ageusername');
+              var modal = $(this);
+              $('#age-userid').val(userid);
+              $('#age-username').val(username);
+              $('#age-commit').bind('click',function (){
+                  var parms = {};
+                  parms['userid'] = $('#age-userid').val();
+                  parms['manager-password'] = $('#age-manager-password').val();
+                  parms['age-user'] = $('#age-user').val();
+                  console.log(parms)
+                  $.post('/user/updateage/',parms,function (data) {
+                      if (data['is_ok']){
+                    swal({
+                            title: '更新成功',
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定",
+                            cancelButtonText: "关闭",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            jQuery('#dialog').modal('hide');
+                            window.location.reload();
+                        });
+                    }else {
+                        alert('更新失败');
+                    }
+                  },'json');
+              });
+          });
+          //添加用户
+          $('#create-user').on('show.bs.modal', function (event) {
+             $('create-user-username').val('');
+             $('create-user-password').val('');
+             $('create-user-age').val('');
+          });
+          $('#create-user-commit').on('click',function () {
+             var parms = {};
+                  parms['username'] = $('#create-user-username').val();
+                  parms['password'] = $('#create-user-password').val();
+                  parms['age'] = $('#create-user-age').val();
+                  $.post('/user/add/',parms,function (data) {
+                       if (data['is_ok']){
+                    swal({
+                            title: '创建成功',
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定",
+                            cancelButtonText: "关闭",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            jQuery('#dialog').modal('hide');
+                            window.location.reload();
+                        });
+                    }else {
+                        alert(data['error']);
+                    }
+                  },'json');
+          });
+          //删除用户
+          $('#delete-user').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget);
+              var userid = button.data('deleteuserid');
+              var username = button.data('deleteusername');
+              var modal = $(this);
+              $('#delete-username').val(username);
+              $('#delete-userid').val(userid);
+          });
+          $('#delete-user-commit').on('click',function () {
+             var parms = {};
+                  parms['username'] = $('#delete-username').val();
+                  parms['userid'] = $('#delete-userid').val();
+                  console.log(parms)
+                  $.post('/user/delete/',parms,function(data) {
+                      if (data['is_ok']){
+                    swal({
+                            title: '删除成功',
+                            text: '',
+                            type: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "确定",
+                            cancelButtonText: "关闭",
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            jQuery('#dialog').modal('hide');
+                            window.location.reload();
+                        });
+                    }else {
+                        alert('删除失败');
+                    }
+                  },'json');
+          });
+      });
+{% endblock %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>日志列表</title>
+      <link href="/static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+      <link href="{{url_for('static',filename='users.css')}}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">CMDB</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a>欢迎{{session.get('user', {}).get('username', '')}}</a></li>
+            <li><a href="/logout/">退出登录</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/users/">用户管理</a></li>
+            <li><a href="/logs/">访问日志分析</span></a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <form class="form-inline" action="/uploadlogs/" method="post" enctype="multipart/form-data">
+              <div class="col-md-3">
+                <a class="btn btn-link" href="/logs/?topn=10">Top 10</a>
+                <a class="btn btn-link" href="/logs/?topn=25">Top 25</a>
+                <a class="btn btn-link" href="/logs/?topn=50">Top 50</a>
+              </div>
+              <div class="col-md-9">
+                <div class="input-group">
+                  <input type="file" name="logfile" class="form-control" >
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">上传文件</button>
+                  </span>
+                </div>
+              </div>
+            </form>
+            <br/><br/>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>IP地址</th>
+                        <th>URL</th>
+                        <th>CODE</th>
+                        <th>次数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for node in rt_list %}
+                        <tr>
+                            <td>{{ node[1] }}</td>
+                            <td>{{ node[0] }}</td>
+                            <td>{{ node[2] }}</td>
+                            <td>{{ node[3] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

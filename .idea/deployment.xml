@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="腾讯云cmdb" uploadOnCheckin="cb28e496-e671-4dee-b0c3-405f77624063">
+    <serverData>
+      <paths name="腾讯云cmdb">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/cmdb" local="$PROJECT_DIR$" web="/" />
+            <mapping local="" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="腾讯云cmdb" />
+  </component>
+</project>

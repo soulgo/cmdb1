@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}日志列表{% endblock %}
+{% block nav_log %}active{% endblock %}
+{% block main %}
+    <form class="form-inline" action="/uploadlogs/" method="post" enctype="multipart/form-data">
+      <div class="col-md-3">
+        <a class="btn btn-link" href="/logs/?topn=10">Top 10</a>
+        <a class="btn btn-link" href="/logs/?topn=25">Top 25</a>
+        <a class="btn btn-link" href="/logs/?topn=50">Top 50</a>
+      </div>
+      <div class="col-md-9">
+        <div class="input-group">
+          <input type="file" name="logfile" class="form-control" >
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">上传文件</button>
+          </span>
+        </div>
+      </div>
+    </form>
+    <br/><br/>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>IP地址</th>
+                <th>URL</th>
+                <th>CODE</th>
+                <th>次数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for node in rt_list %}
+                <tr>
+                    <td>{{ node[1] }}</td>
+                    <td>{{ node[0] }}</td>
+                    <td>{{ node[2] }}</td>
+                    <td>{{ node[3] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

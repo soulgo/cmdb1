@@ -1,0 +1,35 @@
+<form class="form-horizontal" action="/asset/cmd_execute/" method="post">
+    <input type="hidden" name="id" value="{{aid}}"/>
+    <div class="form-group">
+        <label class="col-md-3 control-label">系统用户名:</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" name="username"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">系统密码:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="password"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">管理员密码:</label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="admin-password"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">执行命令:</label>
+        <div class="col-md-5">
+            <textarea class="form-control" name="cmds"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-3 control-label">执行结果:</label>
+        <div class="col-md-5">
+            <textarea class="form-control" id="cmds-output"></textarea>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+</script>
