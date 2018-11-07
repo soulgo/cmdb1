@@ -328,3 +328,56 @@ class Command(object):
             _echos.append(_cmd)
             _echos.append(''.join(_outs))
         return '\n'.join(_echos)
+
+class Accesslog2(object):
+    @classmethod
+    def get_status_distribution(cls):
+        _sql = 'select status,count(*) from accesslog2 group by status;'
+        _rt_cnt,_rt_list = MySqlConnection.execute_sql(_sql)
+        '_rt_list = ((200, 578), (304, 190), (404, 32))'
+        _legends = []
+        _datas = []
+        _legends = [_node[0] for _node in _rt_list]
+        _datas = [dict(zip(("name","value"),_node)) for _node in _rt_list]
+        # 上面两行相当于下面三行
+        '''
+        for _status,_cnt in _rt_list:
+            _legends.append(_status)
+            _datas.append({"name":_status,"value":_cnt})
+        '''
+        return _legends,_datas
+
+    @classmethod
+    def get_time_status_stack(cls):
+        _sql = "select DATE_FORMAT(logtime, '%%Y-%%m-%%d %%H:00:00') as ltime, status, count(*) from accesslog2 where logtime >= %s group by ltime, status;"
+        _lasttime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() - 12 * 60 * 60))
+        _lasttime = '2014-08-23 00:00:00'
+        _rt_cnt, _rt_list = MySqlConnection.execute_sql(_sql, (_lasttime,))
+        _legends = []
+        _xaxis = []
+        _datas = []
+
+        _temp_dict = {}
+        for _ltime, _status, _cnt in _rt_list:
+            if _status not in _legends:
+                # 将int类型转换为字符串类型，加上双引号，不然页面上没法显示
+                _status = "%d" % _status
+                _legends.append(_status)
+            if _ltime not in _xaxis:
+                _xaxis.append(_ltime)
+            _temp_dict.setdefault(_status, {})
+            _temp_dict[_status][_ltime] = _cnt
+
+        for _status, _stat in _temp_dict.items():
+            _node = {
+                "name": _status,
+                "type": 'bar',
+                "stack": 'time_status_stack',
+                "data": []
+            }
+            for _ltime in _xaxis:
+                _cnt = _stat.get(_ltime, 0)
+                _node['data'].append(_cnt)
+
+            _datas.append(_node)
+        return _legends, _xaxis, _datas

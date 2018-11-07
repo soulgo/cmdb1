@@ -32,14 +32,17 @@ if __name__ == '__main__':
             response = reader.city(ip)
             if 'China' != response.country.name:
                 continue
+            city = response.city.names.get('zh-CN', '')
+            if city == '':
+                continue
             # 经度和纬度
             lat = response.location.latitude
             lng = response.location.longitude
-            rt_list.append((logtime,ip,url,status,lat,lng))
+            rt_list.append((logtime,ip,url,status,lat,lng,city))
         except BaseException as e:
             print('此IP不在China:%s' %ip)
 
     fhandler.close()
 
-    _sql = 'insert into accesslog2(logtime,ip,url,status,lat,lng) values (%s, %s, %s, %s, %s, %s)'
+    _sql = 'insert into accesslog2(logtime,ip,url,status,lat,lng,city) values (%s, %s, %s, %s, %s, %s, %s)'
     MySqlConnection.bulker_execute_sql(_sql, rt_list)

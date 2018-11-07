@@ -343,3 +343,11 @@ def performs():
     #0.10 request.get_json()
     return json.dumps({'code' : 200, 'text' : 'success'})
 
+@app.route('/charts/')
+@login_required
+def charts():
+    status_legend ,status_data = models.Accesslog2.get_status_distribution()
+    time_status_legend, time_status_xaxis, time_status_data = models.Accesslog2.get_time_status_stack()
+    return render_template('charts.html',status_legend=json.dumps(status_legend),status_data=json.dumps(status_data),
+                           time_status_legend = json.dumps(time_status_legend),time_status_xaxis = json.dumps(time_status_xaxis),
+                           time_status_data = json.dumps(time_status_data))

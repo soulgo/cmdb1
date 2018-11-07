@@ -110,23 +110,6 @@
         </div>
       </div>
     </div>
-<!--日志返回码-->
-<div class="modal fade" id="code-dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="exampleModalLabel3">日志返回码</h4>
-          </div>
-          <div class="modal-body">
-            日志返回码
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-interval-dialog-close" >关闭</button>
-          </div>
-        </div>
-      </div>
-    </div>
 {% endblock %}
 
 {% block script %}
@@ -308,7 +291,7 @@ jQuery('#cmd-dialog').on('show.bs.modal', function (event) {
             <!--再js中，有var说明是全局的，但一般情况下都带上var-->
             timer_interval = setInterval(function(){
                 jQuery(that).find('.modal-body').load(url);
-            },10 * 1000);
+            },60 * 1000);
     });
     <!--当监控按钮点击关闭的时候，清除定时任务-->
     $('.btn-interval-dialog-close').on('click',function(){

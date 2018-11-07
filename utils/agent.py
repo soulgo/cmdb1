@@ -81,6 +81,6 @@ if __name__ == '__main__':
             print(_msg)
             logger.debug(_msg)
             send(_msg)
-            time.sleep(10)
+            time.sleep(1200)
         except BaseException as e:
             logger.error(traceback.format_exc())
