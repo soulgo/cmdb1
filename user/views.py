@@ -333,8 +333,11 @@ def cmd_execute_asset():
 @app.route('/performs/', methods=['POST'])
 def performs():
     # 判断请求头里带的app_key和app_secret
+    print('=================>')
+    # print(request.json)
     _app_key = request.headers.get('app_key','')
     _app_secret = request.headers.get('app_secret','')
+    print(_app_key,_app_secret)
     if _app_key != gconf.APP_KEY or _app_secret != gconf.APP_SECRET:
         return json.dumps({'code':400,'text':'key or secret error'})
     #获取json数据

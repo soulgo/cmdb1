@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block title %}图表{% endblock %}
+{% block nav_charts %}active{% endblock %}
+{% block main %}
+<div id="status_pie" style="height:400px"></div>
+<div id="time_status_stack" style="height:400px"></div>
+<div id="access_map" style="height:400px"></div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{{ url_for('static', filename='echarts.js') }}"></script>
+<script type="text/javascript">
+{% block js %}
+    var status_pie = echarts.init(document.getElementById('status_pie'));
+    var app = {};
+    option = null;
+    option = {
+        title : {
+            text: '访问日志状态码分布图',
+            subtext: '',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'right',
+            data: {{status_legend|safe}}
+        },
+        series : [
+            {
+                name: '状态码访问次数',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:{{status_data|safe}},
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        status_pie.setOption(option, true);
+    }
+    // 访问日志时间状态码趋势图
+    var time_status_stack = echarts.init(document.getElementById('time_status_stack'));
+    time_status_stack_option = {
+    title : {
+        text: '访问日志时间状态码趋势图',
+        subtext: '',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: {
+        orient : 'vertical',
+        x : 'right',
+        data: {{ time_status_legend|safe }}
+    },
+    grid: {
+        left: '3%',
+        right: '7%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : {{ time_status_xaxis|safe }}
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : {{ time_status_data|safe }}
+};
+    if (time_status_stack_option && typeof time_status_stack_option === "object") {
+        time_status_stack.setOption(time_status_stack_option, true);
+    }
+ </script>
+{% endblock %}
+{% endblock %}

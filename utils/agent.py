@@ -13,7 +13,7 @@ APP_SECRET = 'a892feff56f20341a6a70fdb0f972e3b'
 
 logger = logging.getLogger(__name__)
 
-SERVER_URL = 'http://140.143.206.70:8080/performs/'
+SERVER_URL = 'http://127.0.0.1:8080/performs/'
 
 def execute_cmd(cmd):
     _fh = os.popen(cmd)
@@ -78,7 +78,6 @@ if __name__ == '__main__':
     while True:
         try:
             _msg = collect()
-            print(_msg)
             logger.debug(_msg)
             send(_msg)
             time.sleep(1200)

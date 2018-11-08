@@ -291,6 +291,9 @@ class Performs(object):
         _ram = req.get('ram')
         _time = req.get('time')
         _sql = 'insert into performs(ip, cpu, ram, time)values(%s, %s, %s, %s);'
+        print('===============')
+        print(_sql)
+        print(_ip, _cpu, _ram, _time)
         MySqlConnection.execute_sql(_sql, (_ip, _cpu, _ram, _time), False)
 
     @classmethod
